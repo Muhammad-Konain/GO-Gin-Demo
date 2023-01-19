@@ -2,6 +2,7 @@ package initializers
 
 import (
 	"log"
+	"os"
 
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
@@ -11,7 +12,7 @@ var DB *gorm.DB
 
 func ConnectToDB() {
 	var err error
-	dsn := "sqlserver://go-user:go-user123@localhost:1433?database=go-demo"
+	dsn := os.Getenv("DB_STR")
 	DB, err = gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 
 	if err != nil {

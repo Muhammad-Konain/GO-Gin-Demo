@@ -1,9 +1,10 @@
 package main
 
 import (
-	controllers "github.com/Muhammad-Konain/GO-Gin-Demo/Controllers"
+	"log"
+
 	initializers "github.com/Muhammad-Konain/GO-Gin-Demo/Initializers"
-	"github.com/gin-gonic/gin"
+	models "github.com/Muhammad-Konain/GO-Gin-Demo/Models"
 )
 
 func init() {
@@ -12,9 +13,9 @@ func init() {
 }
 
 func main() {
-	r := gin.Default()
+	err := initializers.DB.AutoMigrate(&models.Post{})
 
-	r.GET("/", controllers.CreatePosts)
-
-	r.Run()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
