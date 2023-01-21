@@ -45,3 +45,55 @@ func GetPosts(c *gin.Context) {
 		})
 	}
 }
+
+func GetPostById(c *gin.Context) {
+	var post models.Post
+
+	id := c.Param("id")
+
+	result := initializers.DB.First(&post, id)
+
+	if result != nil {
+		c.JSON(201, gin.H{
+			"posts": post,
+		})
+	}
+}
+
+func UpdatePost(c *gin.Context) {
+
+	id := c.Param("id")
+
+	var request struct {
+		Title string
+		Body  string
+	}
+
+	c.Bind(&request)
+
+	var post models.Post
+	result := initializers.DB.First(&post, id)
+
+	initializers.DB.Model(&post).Updates(models.Post{
+		Title: request.Title,
+		Body:  request.Body,
+	})
+
+	if result != nil {
+		c.JSON(201, gin.H{
+			"posts": post,
+		})
+	}
+}
+
+func DeletePost(c *gin.Context) {
+	id := c.Param("id")
+
+	result := initializers.DB.Delete(&models.Post{}, id)
+
+	if result.Error != nil {
+		log.Fatal("Error in deleting post " + id)
+	}
+
+	c.Status(100)
+}

@@ -15,7 +15,10 @@ func main() {
 	r := gin.Default()
 
 	r.POST("/CreatePost", controllers.CreatePosts)
+	r.PUT("/UpdatePost/:id", controllers.UpdatePost)
 	r.GET("/GetAllPosts", controllers.GetPosts)
+	r.GET("/GetAllPosts/:id", controllers.GetPostById)
+	r.DELETE("/DeletePost/:id", controllers.DeletePost)
 
 	r.Run()
 }
